@@ -36,25 +36,18 @@ class Robot
   end
 
   def pick_up(item)
-    #canpickupitems = total += item.weight <= 250
-    #if canpickupitems
-    #pickup
-    #
-    # if item.weight == 1
-    #   return false
-    # end
-    if item.weight <= 250
+
+    can_pick_up = total_weight += item.weight <= 250
+
+    if can_pick_up
       @items << item
       
       if item.is_a? (Weapon)
         @equipped_weapon = item
       end
-      
-      return true
-    
     end
 
-    #pickupitem
+    can_pick_up
 
   end
 
@@ -81,6 +74,14 @@ class Robot
     end
   end
 
+  def heal!(hp)
+    if @health == 0
+      raise "Already dead!"
+    else
+      heal(hp)
+    end
+  end
+
   def heal(hp)
     if (@health + hp) >= 100
       @health = 100
@@ -90,15 +91,18 @@ class Robot
   end
 
   def attack(unit)
-    #if weapon equipped
-    @equipped_weapon.hit(unit)
-    #else
-    unit.wound(5)
+    if @equipped_weapon != nil
+      @equipped_weapon.hit(unit)
+    else
+      unit.wound(5)
+    end
   end
 
-  # def hit(weapon)
-  #   weapon
-  # end
+  def attack!(unit)
+    if unit.is_a? (Robot)
+      attack(unit)
+    end
+  end
 
   def pick_up(item)
     if item.is_a? (Weapon)

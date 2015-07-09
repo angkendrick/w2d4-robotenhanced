@@ -9,6 +9,7 @@ safe_require 'box_of_bolts'
 safe_require 'laser'
 safe_require 'plasma_cannon'
 
+
 RSpec.configure do |config|
   config.color = true
   config.tty = true
